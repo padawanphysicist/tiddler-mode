@@ -1,4 +1,4 @@
-;;; tid-mode.el --- Mode for editing TiddlyWiki .tid files.
+;;; tiddler-mode.el --- Mode for editing TiddlyWiki .tid files.
 
 ;; Author: Victor Santos <vct.santos@protonmail.com>
 ;; Version: 0.1
@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; This is `tid-mode', a major mode for editing articles written
+;; This is `tiddler-mode', a major mode for editing articles written
 ;; in the markup language used by TiddlyWiki.
 
 ;;; Code:
@@ -36,25 +36,25 @@
         ("^!\+ \\(.*\\)$" . font-lock-function-name-face)))
 
 ;;;###autoload
-(define-derived-mode tid-mode
+(define-derived-mode tiddler-mode
   text-mode "TW5"
   "A major mode for editing TiddlyWiki5 (.tid) files."
-  (setq tid-mode-hook nil)
-  (add-hook 'tid-mode-hook 'tid-save)
+  (setq tiddler-mode-hook nil)
+  (add-hook 'tiddler-mode-hook 'tiddler-save)
 
   ;; Syntax highlight
   (setq font-lock-defaults '(wikitext-syntax-rules)))
-(add-to-list 'auto-mode-alist '("\\.tid\\'" . tid-mode))
+(add-to-list 'auto-mode-alist '("\\.tid\\'" . tiddler-mode))
 
-(defun tid-p ()
+(defun tiddler-p ()
   "Check whether or not a buffer's file is a .tid file."
   (and
    (> (length (buffer-file-name)) 4)
    (string-equal (substring (buffer-file-name) -4) ".tid")))
 
-(defun tid-time ()
+(defun tiddler-time ()
   "Update .tid metadata to reflect the modification time."
-  (when (tid-p)
+  (when (tiddler-p)
     (save-excursion
 	  (goto-char (point-min))
 	  (search-forward "modified: ")
@@ -62,12 +62,11 @@
 	  (kill-line)
 	  (insert (format-time-string "modified: %Y%m%d%H%M%S%3N")))))
 
-(defun tid-save ()
-  "Allow `tid-mode' to run the function `tid-time' when contents are written."
-  (add-hook 'write-contents-functions 'tid-time))
+(defun tiddler-save ()
+  "Allow `tiddler-mode' to run the function `tiddler-time' when contents are written."
+  (add-hook 'write-contents-functions 'tiddler-time))
 
 
-(provide 'tid-mode)
+(provide 'tiddler-mode)
 
-;;; tid-mode.el ends here
-
+;;; tiddler-mode.el ends here
