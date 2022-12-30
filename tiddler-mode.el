@@ -35,6 +35,7 @@
         ;; Headers
         ("^!\+ \\(.*\\)$" . font-lock-function-name-face)))
 
+;;;###autoload
 (define-derived-mode tid-mode
   text-mode "TW5"
   "A major mode for editing TiddlyWiki5 (.tid) files."
